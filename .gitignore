@@ -10,7 +10,7 @@ __pycache__/
 Thumbs.db
 
 # --- DATOS ---
-# Ignorar todo el contenido de la carpeta de datos...
+# Ignorar el contenido de la carpeta de datos...
 datos_csv/*
 
 # ...EXCEPTO nuestro archivo de configuración manual

@@ -1,100 +1,128 @@
-# 📈 Visualización: Seguridad y Coste de Bitcoin
+📈 Visualización: Seguridad y Coste de Bitcoin
 
-Este proyecto analiza la evolución del coste de un ataque del 51% a la red Bitcoin, cruzando métricas on-chain con la eficiencia del hardware de minería y los costes energéticos.
+Este proyecto analiza la evolución del coste de un ataque del 51% a la red Bitcoin, cruzando métricas on-chain con la eficiencia del hardware de minería y los costes energéticos industriales.
 
-**Proyecto para la asignatura M2.859 - Visualización de Datos.**
+Proyecto para la asignatura M2.859 - Visualización de Datos.
 
----
+🚦 Estado Actual
 
-### Estado Actual
+Fase 4: Análisis y Visualización. Hemos completado la ingeniería de datos (ETL). Los datos brutos han sido limpiados, sincronizados temporalmente y exportados a un dataset maestro listo para el análisis.
 
-Proyecto en **Fase 2: Configuración del Repositorio**.
+Progreso:
 
-**Próximos Pasos:**
-1.  [X] **Paso 1:** Adquisición de datos (Fuentes localizadas).
-2.  [X] **Paso 2:** Configuración de repositorio y documentación.
-3.  [ ] **Paso 3:** Cargar y limpiar los 7 archivos de datos (BTC, EIA, Eficiencia).
-4.  [ ] **Paso 4:** Unificar los dataframes en una única tabla diaria.
-5.  [ ] **Paso 5:** Calcular las métricas derivadas (coste de ataque, etc.).
+    [x] Paso 1: Adquisición de datos (Scripts y fuentes localizadas).
 
----
+    [x] Paso 2: Configuración de repositorio y entorno.
 
-### 🚀 Cómo Empezar
+    [x] Paso 3: Limpieza de datos (ETL) y normalización de fechas.
 
-1.  **Clonar el repositorio:**
+    [x] Paso 4: Unificación de fuentes (Blockchain + EIA + Eficiencia) en un solo CSV.
+
+    [ ] Paso 5: Script de Análisis (Cálculo de métricas de seguridad y coste).
+
+    [ ] Paso 6: Generación de visualizaciones finales.
+
+📂 Estructura del Repositorio
+
+Plaintext
+
+### 📂 Estructura del Repositorio
+
+```text
+visualizacion-btc-seguridad/
+│
+├── .venv/                          # Entorno virtual de Python (no se sube a Git)
+│
+├── datos_csv/                      # Carpeta de DATOS BRUTOS (ignorada por Git)
+│   ├── precio_btc.csv              # [Auto] Precio de mercado diario (USD)
+│   ├── hashrate_btc.csv            # [Auto] Hashrate total de la red
+│   ├── dificultad_btc.csv          # [Auto] Dificultad de minado
+│   ├── transacciones_btc.csv       # [Auto] Número de transacciones diarias
+│   ├── ingresos_mineros_btc.csv    # [Auto] Ingresos totales mineros (USD)
+│   ├── efficiency_manual.csv       # [Manual] Histórico eficiencia hardware (J/TH)
+│   └── Average_retail_price...csv  # [Manual] Precio electricidad industrial (EIA)
+│
+├── descargar_blockchain.py         # Script 1: Descarga automática de APIs
+├── procesar_datos.py               # Script 2: Limpieza (ETL), normalización y cálculo BTC
+├── analisis_seguridad.py           # Script 3: (Fase 4) Análisis de costes y Gráficos
+│
+├── dataset_completo_bitcoin.csv    # RESULTADO: Dataset maestro limpio (Input para Script 3)
+├── .gitignore                      # Archivos ignorados (venv, __pycache__, datos_csv)
+└── README.md                       # Documentación del proyecto
+```
+
+### 🚀 Guía de Uso Rápida
+
+1.  **Clonar el repositorio y preparar entorno:**
     ```bash
     git clone [https://github.com/TU_USUARIO/visualizacion-btc-seguridad.git](https://github.com/TU_USUARIO/visualizacion-btc-seguridad.git)
     cd visualizacion-btc-seguridad
-    ```
-
-2.  **Crear un entorno virtual (recomendado):**
-    ```bash
+    
+    # Crear entorno virtual
     python -m venv .venv
-    source .venv/bin/activate  # (En Mac/Linux)
-    .venv\Scripts\activate     # (En Windows)
+    
+    # Activar entorno (Windows):
+    .venv\Scripts\activate
+    
+    # Activar entorno (Mac/Linux):
+    # source .venv/bin/activate
+    
+    # Instalar librerías necesarias
+    pip install requests pandas matplotlib seaborn openpyxl
     ```
 
-3.  **Instalar dependencias:**
-    *(Crearemos un `requirements.txt` más tarde)*
-    ```bash
-    pip install requests pandas openpyxl
-    ```
-    *(Nota: `openpyxl` será necesario para leer el archivo `.xls` de la EIA)*
-
-4.  **Obtener los datos:**
-    Sigue las instrucciones de la sección **"Adquisición de Datos"** más abajo para poblar tu carpeta local `datos_csv/`.
-
----
-
-### 🛠️ Adquisición de Datos
-
-Para que el proyecto funcione, los datos brutos deben descargarse y colocarse en la carpeta `datos_csv/` (la cual está ignorada por Git).
-
-#### Fuente 1: Datos de Bitcoin (Blockchain.com)
-
-Estos datos se obtienen automáticamente ejecutando nuestro script de Python.
-
-1.  Asegúrate de tener `requests` instalado (`pip install requests`).
-2.  Ejecuta el script:
+2.  **Paso 1: Descargar Datos Automáticos:**
     ```bash
     python descargar_blockchain.py
     ```
-3.  Esto creará los 5 archivos CSV de Bitcoin dentro de `datos_csv/`.
+    *(Esto descargará los datos de precio, hashrate, etc. en la carpeta `datos_csv/`)*
 
-#### Fuente 2: Coste Eléctrico (EIA)
+3.  **Paso 2: Asegurar Datos Manuales:**
+    * Verifica que el archivo `efficiency_manual.csv` y el archivo de la EIA (`Average_retail_price...`) se encuentren dentro de la carpeta `datos_csv/`.
 
-Estos datos deben descargarse manualmente.
+4.  **Paso 3: Procesar y Limpiar (ETL):**
+    ```bash
+    python procesar_datos.py
+    ```
+    * Este script normaliza las fechas, rellena huecos, calcula los ingresos en BTC y genera el archivo maestro **`dataset_completo_bitcoin.csv`**.
 
-1.  Visita el "Data Browser" de la EIA: [https://www.eia.gov/electricity/data/browser/](https://www.eia.gov/electricity/data/browser/)
-2.  **Categoría:** En la columna izquierda, haz clic en **"Retail Sales and Price"**.
-3.  **Frecuencia:** Haz clic en **"Monthly"**.
-4.  **Selección:**
-    * En "Data Series", marca **"Average price"**.
-    * En "Geography", verifica que sea **"U.S. Total"**.
-    * En "Sector", desmarca "Total (All Sectors)" y marca únicamente **"Industrial"**.
-5.  Haz clic en el botón azul **"Get Data"**.
-6.  En la nueva página, busca la pestaña o botón **"Download"** o **"Export"** y descarga el archivo (usualmente `.xls` o `.csv`).
-7.  **Guarda** este archivo en la carpeta `datos_csv/` con el nombre `precio_electricidad_eia.xls` (o `.csv` si es el caso).
+### 🛠️ Fuentes de Datos (Detalle)
 
-#### Fuente 3: Eficiencia de Minería (Manual - CCAF)
+1. Datos de Bitcoin (Automático)
 
-Esta es una serie temporal manual basada en los datos de eficiencia de hardware (ASICs) publicados por el Cambridge Centre for Alternative Finance (CCAF) y otros análisis de la industria.
+Fuente: Blockchain.com API. Se obtienen mediante descargar_blockchain.py. Incluye: Precio, Hashrate, Dificultad, Transacciones e Ingresos Mineros.
 
-1.  Abre el archivo `datos_csv/efficiency_manual.csv` que creaste.
-2.  **Pega el siguiente contenido** en él (reemplazando la cabecera que ya tenías):
+2. Coste Eléctrico (Manual)
 
-```csv
+Fuente: U.S. Energy Information Administration (EIA).
+
+    Archivo requerido en datos_csv/: Average_retail_price_of_electricity_monthly.csv
+
+    Filtros usados: Sector Industrial, Frecuencia Mensual.
+
+3. Eficiencia de Minería (Manual)
+
+Fuente: Recopilación basada en hitos de hardware (Bitmain Antminer S9, S19, etc.) y datos del CCAF.
+Archivo: datos_csv/efficiency_manual.csv.
+
+Contenido actual del archivo de eficiencia (J/TH):
+
+```text
 date,efficiency_j_th
-2009-01-03,10000000
-2010-12-01,600000
-2011-06-01,50000
-2013-02-01,10000
-2013-12-01,2000
-2015-05-01,500
-2016-06-01,150
-2018-03-01,100
-2019-05-01,60
-2020-05-01,45
-2021-05-01,35
-2022-12-01,30
-2024-01-01,20
+2009-01-03,800000.0
+2010-10-01,290000.0
+2011-06-01,45000.0
+2013-01-01,10000.0
+2013-11-01,2000.0
+2014-07-01,770.0
+2014-12-01,510.0
+2015-08-01,250.0
+2016-06-01,98.0
+2018-12-01,57.0
+2019-04-01,40.0
+2020-05-01,34.5
+2020-05-02,29.5
+2021-11-01,21.5
+2023-09-01,17.5
+2024-01-01,15.0
+```
