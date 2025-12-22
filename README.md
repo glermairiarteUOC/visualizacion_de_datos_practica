@@ -1,128 +1,149 @@
-📈 Visualización: Seguridad y Coste de Bitcoin
+# 📈 Visualización: Seguridad y Coste de Bitcoin
 
 Este proyecto analiza la evolución del coste de un ataque del 51% a la red Bitcoin, cruzando métricas on-chain con la eficiencia del hardware de minería y los costes energéticos industriales.
 
-Proyecto para la asignatura M2.859 - Visualización de Datos.
+**Proyecto para la asignatura M2.859 - Visualización de Datos.**
 
-🚦 Estado Actual
+---
 
-Fase 4: Análisis y Visualización. Hemos completado la ingeniería de datos (ETL). Los datos brutos han sido limpiados, sincronizados temporalmente y exportados a un dataset maestro listo para el análisis.
+## 🚦 Estado Actual
 
-Progreso:
+**Fase 4 (Iteración 2): Enriquecimiento del Dataset.**
+Siguiendo el feedback recibido, se ha ampliado la recolección de datos para superar las **20 variables analíticas**, incluyendo métricas de estado de la red (Mempool, Fees) y **atributos derivados** (Medias móviles, Volatilidad, Ratios financieros) para facilitar el diseño de la visualización final.
 
-    [x] Paso 1: Adquisición de datos (Scripts y fuentes localizadas).
+**Progreso:**
+- [x] **Paso 1:** Adquisición masiva de datos (15+ métricas base de Blockchain.com).
+- [x] **Paso 2:** Configuración de repositorio y entorno virtual.
+- [x] **Paso 3:** Limpieza (ETL) y normalización con **resampleo diario** para sincronización perfecta.
+- [x] **Paso 4:** Feature Engineering (Cálculo de SMA, Volatilidad, NVT Ratio, Hashprice).
+- [x] **Paso 5:** Definición de Roles Analíticos (Hechos vs Dimensiones).
+- [ ] **Paso 6:** Análisis y Visualización final (Tableau/Python).
 
-    [x] Paso 2: Configuración de repositorio y entorno.
+---
 
-    [x] Paso 3: Limpieza de datos (ETL) y normalización de fechas.
-
-    [x] Paso 4: Unificación de fuentes (Blockchain + EIA + Eficiencia) en un solo CSV.
-
-    [ ] Paso 5: Script de Análisis (Cálculo de métricas de seguridad y coste).
-
-    [ ] Paso 6: Generación de visualizaciones finales.
-
-📂 Estructura del Repositorio
-
-Plaintext
-
-### 📂 Estructura del Repositorio
+## 📂 Estructura del Repositorio
 
 ```text
 visualizacion-btc-seguridad/
 │
-├── .venv/                          # Entorno virtual de Python (no se sube a Git)
+├── .venv/                          # Entorno virtual (no se sube a Git)
 │
-├── datos_csv/                      # Carpeta de DATOS BRUTOS (ignorada por Git)
-│   ├── precio_btc.csv              # [Auto] Precio de mercado diario (USD)
-│   ├── hashrate_btc.csv            # [Auto] Hashrate total de la red
-│   ├── dificultad_btc.csv          # [Auto] Dificultad de minado
-│   ├── transacciones_btc.csv       # [Auto] Número de transacciones diarias
-│   ├── ingresos_mineros_btc.csv    # [Auto] Ingresos totales mineros (USD)
+├── datos_csv/                      # Carpeta de DATOS BRUTOS
+│   ├── precio_btc.csv              # [Base] Precio mercado (USD)
+│   ├── hashrate.csv                # [Base] Hashrate total
+│   ├── mempool_size.csv            # [Base] Congestión de red (Nuevo)
+│   ├── fees_total_btc.csv          # [Base] Comisiones pagadas (Nuevo)
+│   ├── ... (10+ archivos más)      # Resto de métricas crudas
 │   ├── efficiency_manual.csv       # [Manual] Histórico eficiencia hardware (J/TH)
 │   └── Average_retail_price...csv  # [Manual] Precio electricidad industrial (EIA)
 │
-├── descargar_blockchain.py         # Script 1: Descarga automática de APIs
-├── procesar_datos.py               # Script 2: Limpieza (ETL), normalización y cálculo BTC
-├── analisis_seguridad.py           # Script 3: (Fase 4) Análisis de costes y Gráficos
+├── descargar_blockchain.py         # Script 1: Descarga automática de 15 APIs
+├── procesar_datos.py               # Script 2: ETL, Resampleo Diario y Feature Engineering
+├── dataset_final_btc_ampliado.csv  # RESULTADO: Dataset maestro (>20 vars) listo para analizar
 │
-├── dataset_completo_bitcoin.csv    # RESULTADO: Dataset maestro limpio (Input para Script 3)
-├── .gitignore                      # Archivos ignorados (venv, __pycache__, datos_csv)
-└── README.md                       # Documentación del proyecto
+├── .gitignore                      # Archivos ignorados
+└── README.md                       # Documentación y Diccionario de Datos
 ```
 
-### 🚀 Guía de Uso Rápida
-
-1.  **Clonar el repositorio y preparar entorno:**
-    ```bash
-    git clone [https://github.com/TU_USUARIO/visualizacion-btc-seguridad.git](https://github.com/TU_USUARIO/visualizacion-btc-seguridad.git)
-    cd visualizacion-btc-seguridad
-    
-    # Crear entorno virtual
-    python -m venv .venv
-    
-    # Activar entorno (Windows):
-    .venv\Scripts\activate
-    
-    # Activar entorno (Mac/Linux):
-    # source .venv/bin/activate
-    
-    # Instalar librerías necesarias
-    pip install requests pandas matplotlib seaborn openpyxl
-    ```
-
-2.  **Paso 1: Descargar Datos Automáticos:**
-    ```bash
-    python descargar_blockchain.py
-    ```
-    *(Esto descargará los datos de precio, hashrate, etc. en la carpeta `datos_csv/`)*
-
-3.  **Paso 2: Asegurar Datos Manuales:**
-    * Verifica que el archivo `efficiency_manual.csv` y el archivo de la EIA (`Average_retail_price...`) se encuentren dentro de la carpeta `datos_csv/`.
-
-4.  **Paso 3: Procesar y Limpiar (ETL):**
-    ```bash
-    python procesar_datos.py
-    ```
-    * Este script normaliza las fechas, rellena huecos, calcula los ingresos en BTC y genera el archivo maestro **`dataset_completo_bitcoin.csv`**.
-
-### 🛠️ Fuentes de Datos (Detalle)
-
-1. Datos de Bitcoin (Automático)
-
-Fuente: Blockchain.com API. Se obtienen mediante descargar_blockchain.py. Incluye: Precio, Hashrate, Dificultad, Transacciones e Ingresos Mineros.
-
-2. Coste Eléctrico (Manual)
-
-Fuente: U.S. Energy Information Administration (EIA).
-
-    Archivo requerido en datos_csv/: Average_retail_price_of_electricity_monthly.csv
-
-    Filtros usados: Sector Industrial, Frecuencia Mensual.
-
-3. Eficiencia de Minería (Manual)
-
-Fuente: Recopilación basada en hitos de hardware (Bitmain Antminer S9, S19, etc.) y datos del CCAF.
-Archivo: datos_csv/efficiency_manual.csv.
-
-Contenido actual del archivo de eficiencia (J/TH):
+## 🚀 Guía de Uso Rápida
+1. Preparación del Entorno
 
 ```text
-date,efficiency_j_th
-2009-01-03,800000.0
-2010-10-01,290000.0
-2011-06-01,45000.0
-2013-01-01,10000.0
-2013-11-01,2000.0
-2014-07-01,770.0
-2014-12-01,510.0
-2015-08-01,250.0
-2016-06-01,98.0
-2018-12-01,57.0
-2019-04-01,40.0
-2020-05-01,34.5
-2020-05-02,29.5
-2021-11-01,21.5
-2023-09-01,17.5
-2024-01-01,15.0
+git clone [https://github.com/TU_USUARIO/visualizacion-btc-seguridad.git](https://github.com/TU_USUARIO/visualizacion-btc-seguridad.git)
+cd visualizacion-btc-seguridad
+
+# Crear entorno virtual
+python -m venv .venv
+
+# Activar (Windows):
+.venv\Scripts\activate
+# Activar (Mac/Linux):
+# source .venv/bin/activate
+
+# Instalar dependencias
+pip install requests pandas matplotlib seaborn openpyxl
+```
+
+2. Ejecución del Pipeline ETL
+
+
+A. Descarga de datos frescos:
+
+```text
+python descargar_blockchain.py
+```
+
+Este script descarga automáticamente 15 datasets históricos diferentes desde la API de Blockchain.info.
+
+B. Procesamiento y Generación de Variables:
+
+```text
+python procesar_datos.py
+```
+
+Realiza las siguientes tareas críticas:
+
+    Carga todos los CSVs y normaliza nombres.
+
+    Resampleo Diario (.resample('D')): Alinea todas las métricas a las 00:00:00, promediando valores si existen duplicados, solucionando desajustes horarios entre fuentes.
+
+    Feature Engineering: Calcula variables derivadas (SMA, Volatilidad, Ratios).
+
+    Unión: Cruza con datos manuales (Electricidad y Eficiencia).
+
+    Exportación: Genera el archivo dataset_final_btc_ampliado.csv.
+
+## 📊 Diccionario de Datos y Roles Analíticos
+
+Para facilitar el diseño de la visualización, se han definido los roles de cada variable según el modelo dimensional. Se han incluido métricas derivadas para cumplir con el requisito de "decenas de variables".
+Variable,Descripción,Rol Analítico,Origen
+ariable	Descripción	Rol Analítico	Origen
+Date	Fecha del registro (Diario, normalizado)	Dimensión (Tiempo)	Index
+price_usd	Precio de cierre de Bitcoin (USD)	Hecho	API
+market_cap_usd	Capitalización de mercado total	Hecho	API
+hashrate	Potencia de cálculo de la red (TH/s)	Hecho	API
+difficulty	Dificultad de minado (ajuste automático)	Hecho	API
+miners_rev_usd	Ingresos totales mineros (Bloque + Fees) en USD	Hecho	API
+mempool_size	Tamaño de la mempool (Bytes) - Congestión	Hecho	API
+unique_addr	Número de direcciones únicas activas	Hecho	API
+tx_count	Número de transacciones diarias	Hecho	API
+fees_btc	Total comisiones pagadas a mineros (BTC)	Hecho	API
+avg_block_size	Tamaño promedio del bloque (MB)	Hecho	API
+efficiency_j_th	Eficiencia del hardware minero (J/TH)	Hecho	Manual
+elec_cost_kwh	Coste electricidad industrial (USD/kWh)	Hecho	Manual (EIA)
+price_sma7	Media móvil precio (7 días) - Tendencia CP	Hecho Derivado	Calculado
+price_sma30	Media móvil precio (30 días) - Tendencia MP	Hecho Derivado	Calculado
+price_volatility	Volatilidad (Desv. Estándar 30 días)	Hecho Derivado	Calculado
+price_pct_change	Variación porcentual diaria del precio	Hecho Derivado	Calculado
+nvt_ratio	Ratio Valor Red / Transacciones (Métrica de valoración)	Hecho Derivado	Calculado
+hashprice_usd	Ingresos estimados por unidad de Hashrate	Hecho Derivado	Calculado
+
+## 🛠️ Detalle de Fuentes de Datos
+1. Blockchain.com (Automático)
+
+Ampliación significativa para capturar el estado de la red en tres dimensiones:
+
+    Mercado: Precio, Market Cap, Volumen Exchange.
+
+    Minería: Hashrate, Dificultad, Ingresos (Revenue).
+
+    Red: Transacciones/seg, Tamaño Mempool, Fees, Direcciones Únicas, Tamaño Bloque, Total BTC en circulación.
+
+2. U.S. EIA (Manual)
+
+    Archivo: Average_retail_price_of_electricity_monthly.csv
+
+    Dato: Coste medio de la electricidad industrial en EE.UU. Se utiliza como proxy del coste energético global ("OPEX") de los mineros.
+
+3. Eficiencia Hardware (Manual)
+
+    Archivo: efficiency_manual.csv
+
+    Metodología: Interpolación lineal entre hitos de lanzamiento de hardware ASICS principales (Bitmain Antminer S9, S19, XP, etc.).
+
+```text
+Ejemplo de datos de eficiencia interpolados:
+2016-06-01 -> 98.0 J/TH (Era Antminer S9)
+2020-05-01 -> 34.5 J/TH (Era Antminer S19)
+2024-01-01 -> 15.0 J/TH (Hardware de última generación)
 ```

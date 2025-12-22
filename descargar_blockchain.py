@@ -3,58 +3,56 @@ import os
 
 # --- 1. CONFIGURACIÓN ---
 base_url = "https://api.blockchain.info/charts/"
-# Parámetros para obtener todos los datos, en formato CSV
 parametros = "?timespan=all&format=csv&sampled=false"
-
-# Carpeta donde se guardarán los archivos
 output_folder = 'datos_csv'
 
-# Diccionario de los gráficos que queremos y cómo los llamaremos
+# AMPLIACIÓN DE VARIABLES:
+# Diccionario mapeando: nombre_archivo -> endpoint_api
 charts_a_descargar = {
+    # --- Mercado y Valor ---
     'precio_btc': 'market-price',
-    'hashrate_btc': 'hash-rate',
-    'dificultad_btc': 'difficulty',
-    'transacciones_btc': 'n-transactions',
-    'ingresos_mineros_btc': 'miners-revenue'  # OJO: 'miners-revenue' es en BTC
+    'market_cap': 'market-cap',
+    'trade_volume_exchange': 'trade-volume',  # Volumen en Exchanges (aprox)
+
+    # --- Minería y Seguridad ---
+    'hashrate': 'hash-rate',
+    'dificultad': 'difficulty',
+    'miners_revenue_usd': 'miners-revenue',  # Ingresos totales en USD
+
+    # --- Uso de la Red (Bloques y Transacciones) ---
+    'transacciones_dia': 'n-transactions',
+    'transacciones_segundo': 'transactions-per-second',
+    'mempool_size': 'mempool-size',  # Congestión de la red (bytes)
+    'avg_block_size': 'avg-block-size',  # Tamaño promedio de bloque
+    'n_unique_addresses': 'n-unique-addresses',  # Direcciones únicas usadas
+    'total_btc_sent': 'total-bitcoins',  # BTC totales en circulación
+
+    # --- Costes (Fees) ---
+    'fees_total_btc': 'transaction-fees',  # Fees totales pagados a mineros en BTC
+    'cost_per_tx': 'cost-per-transaction'  # Coste por transacción minada
 }
 
 # --- 2. CREAR CARPETAS ---
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
-    print(f"Carpeta '{output_folder}' creada.")
+    print(f"Carpeta '{output_folder}' creada/verificada.")
 
-print("Iniciando la descarga de los 5 datasets de Blockchain.com...")
+print(f"Iniciando descarga de {len(charts_a_descargar)} datasets de Blockchain.com...")
 
 # --- 3. BUCLE DE DESCARGA ---
 for nombre_archivo, chart_name in charts_a_descargar.items():
-
-    # Construir la URL completa
     url_completa = f"{base_url}{chart_name}{parametros}"
-
-    print(f"\nDescargando {chart_name} ({nombre_archivo})...")
-    print(f"URL: {url_completa}")
+    print(f"Descargando: {nombre_archivo} ({chart_name})...")
 
     try:
-        # Hacer la petición GET a la API
         response = requests.get(url_completa)
-
-        # Verificar si la petición fue exitosa (código 200)
         if response.status_code == 200:
-
-            # Creamos el nombre completo del archivo
             file_path = os.path.join(output_folder, f"{nombre_archivo}.csv")
-
-            # Escribir el contenido (que es el texto CSV) en el archivo
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(response.text)
-
-            print(f"¡Éxito! Datos guardados en: {file_path}")
-
         else:
-            print(f"--- ERROR: La API devolvió un código {response.status_code} ---")
-
+            print(f"  ERROR {response.status_code} en {chart_name}")
     except Exception as e:
-        print(f"--- ERROR al descargar {chart_name} ---")
-        print(f"Detalle: {e}")
+        print(f"  ERROR EXCEPCIÓN en {chart_name}: {e}")
 
-print("\n--- Proceso de descarga de Bitcoin completado. ---")
+print("\n--- Descarga masiva completada. ---")
