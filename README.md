@@ -1,126 +1,96 @@
-# 📈 Visualización: Seguridad y Coste de Bitcoin
+# 📈 Visualización: Bitcoin Security Analysis
 
-Este proyecto analiza la evolución del coste de un ataque del 51% a la red Bitcoin, cruzando métricas on-chain con la eficiencia del hardware de minería y los costes energéticos industriales.
+Este proyecto analiza la evolución del coste de un ataque del 51% a la red Bitcoin, cruzando métricas *on-chain* con la eficiencia del hardware de minería y los costes energéticos industriales.
 
-**Proyecto para la asignatura M2.859 - Visualización de Datos.**
-
----
-
-## 🚦 Estado Actual
-
-**Fase 4 (Iteración 2): Enriquecimiento del Dataset.**
-Siguiendo el feedback recibido, se ha ampliado la recolección de datos para superar las **20 variables analíticas**, incluyendo métricas de estado de la red (Mempool, Fees) y **atributos derivados** (Medias móviles, Volatilidad, Ratios financieros) para facilitar el diseño de la visualización final.
-
-**Progreso:**
-- [x] **Paso 1:** Adquisición masiva de datos (15+ métricas base de Blockchain.com).
-- [x] **Paso 2:** Configuración de repositorio y entorno virtual.
-- [x] **Paso 3:** Limpieza (ETL) y normalización con **resampleo diario** para sincronización perfecta.
-- [x] **Paso 4:** Feature Engineering (Cálculo de SMA, Volatilidad, NVT Ratio, Hashprice).
-- [x] **Paso 5:** Definición de Roles Analíticos (Hechos vs Dimensiones).
-- [ ] **Paso 6:** Análisis y Visualización final (Tableau/Python).
+**Proyecto para la asignatura M2.859 - Visualización de Datos (UOC).**
 
 ---
 
 ## 📂 Estructura del Repositorio
 
-```text
-visualizacion-btc-seguridad/
-│
-├── .venv/                          # Entorno virtual (no se sube a Git)
-│
-├── datos_csv/                      # Carpeta de DATOS BRUTOS
-│   ├── precio_btc.csv              # [Base] Precio mercado (USD)
-│   ├── hashrate.csv                # [Base] Hashrate total
-│   ├── mempool_size.csv            # [Base] Congestión de red (Nuevo)
-│   ├── fees_total_btc.csv          # [Base] Comisiones pagadas (Nuevo)
-│   ├── ... (10+ archivos más)      # Resto de métricas crudas
-│   ├── efficiency_manual.csv       # [Manual] Histórico eficiencia hardware (J/TH)
-│   └── Average_retail_price...csv  # [Manual] Precio electricidad industrial (EIA)
-│
-├── descargar_blockchain.py         # Script 1: Descarga automática de 15 APIs
-├── procesar_datos.py               # Script 2: ETL, Resampleo Diario y Feature Engineering
-├── dataset_final_btc_ampliado.csv  # RESULTADO: Dataset maestro (>20 vars) listo para analizar
-│
-├── .gitignore                      # Archivos ignorados
-└── README.md                       # Documentación y Diccionario de Datos
-```
-
-## 🚀 Guía de Uso Rápida
-1. Preparación del Entorno
+El proyecto está modularizado para separar la descarga, limpieza, procesamiento y visualización de los datos.
 
 ```text
-git clone [https://github.com/TU_USUARIO/visualizacion-btc-seguridad.git](https://github.com/TU_USUARIO/visualizacion-btc-seguridad.git)
-cd visualizacion-btc-seguridad
-
-# Crear entorno virtual
-python -m venv .venv
-
-# Activar (Windows):
-.venv\Scripts\activate
-# Activar (Mac/Linux):
-# source .venv/bin/activate
-
-# Instalar dependencias
-pip install requests pandas matplotlib seaborn openpyxl
+.
+├── main.py                     # Script principal (Orquestador del pipeline)
+├── src/                        # Módulos de procesamiento
+│   ├── descargar_blockchain.py # Descarga datos de la API de Blockchain.com
+│   ├── limpiar_eia.py          # Procesa datos de electricidad (EIA)
+│   ├── procesar_datos.py       # Fusiona datasets y calcula métricas
+│   └── generar_web.py          # Genera el dashboard HTML con Plotly
+├── datos/                      # Almacenamiento de datos
+│   ├── raw_api/                # Datos crudos descargados automáticamente
+│   ├── raw_manual/             # Datos ingresados manualmente (Electricidad/Eficiencia)
+│   └── processed/              # Dataset final limpio (dataset_final_btc.csv)
+├── index.html                  # Resultado final: Dashboard interactivo
+└── README.md                   # Documentación del proyecto
 ```
 
-2. Ejecución del Pipeline ETL
+## 🚀 Guía de Uso
 
+Sigue estos pasos para descargar el repositorio, configurar el entorno y generar el dashboard en tu máquina local.
+1. Prerrequisitos
 
-A. Descarga de datos frescos:
+Necesitas tener instalado Python 3.8+. Además, este proyecto requiere las siguientes librerías:
 
-```text
-python descargar_blockchain.py
-```
+    pandas
+    plotly
+    requests
 
-Este script descarga automáticamente 15 datasets históricos diferentes desde la API de Blockchain.info.
+2. Instalación
 
-B. Procesamiento y Generación de Variables:
+Abre tu terminal y ejecuta los siguientes comandos:
+Bash
 
-```text
-python procesar_datos.py
-```
+#### A. Clonar el repositorio (sustituye tu-usuario y nombre-repo por los reales)
+    git clone [https://github.com/tu-usuario/nombre-del-repo.git](https://github.com/tu-usuario/nombre-del-repo.git)
 
-Realiza las siguientes tareas críticas:
+#### B. Entrar en la carpeta del proyecto
+    cd nombre-del-repo
 
-    Carga todos los CSVs y normaliza nombres.
+#### C. Instalar las dependencias necesarias
+    pip install pandas plotly requests
 
-    Resampleo Diario (.resample('D')): Alinea todas las métricas a las 00:00:00, promediando valores si existen duplicados, solucionando desajustes horarios entre fuentes.
+3. Configuración de Datos Manuales
 
-    Feature Engineering: Calcula variables derivadas (SMA, Volatilidad, Ratios).
+Debido a que algunas fuentes no ofrecen API pública gratuita, es necesario asegurarse de que los archivos manuales existan en la carpeta datos/raw_manual/:
 
-    Unión: Cruza con datos manuales (Electricidad y Eficiencia).
+    Precio de la Electricidad: El script espera Average_retail_price_of_electricity_monthly.csv (formato EIA).
+    Eficiencia Minera: El script espera efficiency_manual.csv (con columnas date y efficiency_j_th).
 
-    Exportación: Genera el archivo dataset_final_btc_ampliado.csv.
+4. Ejecución
 
-## 📊 Diccionario de Datos y Roles Analíticos
+Una vez configurado, ejecuta el script principal que orquesta todo el proceso (descarga, limpieza, procesamiento y generación web):
+Bash
 
-Para facilitar el diseño de la visualización, se han definido los roles de cada variable según el modelo dimensional. Se han incluido métricas derivadas para cumplir con el requisito de "decenas de variables".
-Variable,Descripción,Rol Analítico,Origen
-ariable	Descripción	Rol Analítico	Origen
-Date	Fecha del registro (Diario, normalizado)	Dimensión (Tiempo)	Index
-price_usd	Precio de cierre de Bitcoin (USD)	Hecho	API
-market_cap_usd	Capitalización de mercado total	Hecho	API
-hashrate	Potencia de cálculo de la red (TH/s)	Hecho	API
-difficulty	Dificultad de minado (ajuste automático)	Hecho	API
-miners_rev_usd	Ingresos totales mineros (Bloque + Fees) en USD	Hecho	API
-mempool_size	Tamaño de la mempool (Bytes) - Congestión	Hecho	API
-unique_addr	Número de direcciones únicas activas	Hecho	API
-tx_count	Número de transacciones diarias	Hecho	API
-fees_btc	Total comisiones pagadas a mineros (BTC)	Hecho	API
-avg_block_size	Tamaño promedio del bloque (MB)	Hecho	API
-efficiency_j_th	Eficiencia del hardware minero (J/TH)	Hecho	Manual
-elec_cost_kwh	Coste electricidad industrial (USD/kWh)	Hecho	Manual (EIA)
-price_sma7	Media móvil precio (7 días) - Tendencia CP	Hecho Derivado	Calculado
-price_sma30	Media móvil precio (30 días) - Tendencia MP	Hecho Derivado	Calculado
-price_volatility	Volatilidad (Desv. Estándar 30 días)	Hecho Derivado	Calculado
-price_pct_change	Variación porcentual diaria del precio	Hecho Derivado	Calculado
-nvt_ratio	Ratio Valor Red / Transacciones (Métrica de valoración)	Hecho Derivado	Calculado
-hashprice_usd	Ingresos estimados por unidad de Hashrate	Hecho Derivado	Calculado
+    python main.py
 
-## 🛠️ Obtención de datos
+Verás en la consola el progreso del pipeline paso a paso:
 
-### 1. Blockchain.com (Automático)
+    Descarga de datos de Blockchain.com.
+    Limpieza de datos de la EIA.
+    Procesamiento y fusión de CSVs.
+    Generación del archivo index.html.
+
+5. Visualización
+
+Al finalizar, se creará (o actualizará) el archivo index.html en la raíz del proyecto. Simplemente abre este archivo con tu navegador web favorito (Chrome, Firefox, Edge) para interactuar con la visualización.
+
+## 🛠️ Tecnologías Utilizadas
+
+    Python: Lenguaje principal.
+
+    Pandas: Manipulación y análisis de datos (ETL).
+
+    Plotly: Librería de gráficos interactivos.
+
+    Bootstrap 5: Estilizado del dashboard HTML final.
+
+    APIs: Blockchain.com (datos de red).
+
+## 🗄️ Obtención de datos
+
+#### 1. Blockchain.com (Automático)
 
 Ampliación significativa para capturar el estado de la red en tres dimensiones:
 
@@ -130,7 +100,7 @@ Ampliación significativa para capturar el estado de la red en tres dimensiones:
 
     Red: Transacciones/seg, Tamaño Mempool, Fees, Direcciones Únicas, Tamaño Bloque, Total BTC en circulación.
 
-### 2. Datos de Electricidad (U.S. EIA)
+#### 2. Datos de Electricidad (Manual)
 Utilizamos el precio medio de la electricidad industrial en EE.UU. como proxy del coste energético global de los mineros.
 
 * **Fuente:** U.S. Energy Information Administration (EIA).
@@ -139,15 +109,14 @@ Utilizamos el precio medio de la electricidad industrial en EE.UU. como proxy de
     1.  Ir a la tabla "Average Retail Price of Electricity to Ultimate Customers".
     2.  Buscar la sección **"Industrial"**.
     3.  Descargar el histórico completo (seleccionar opción "Download" o copiar la tabla).
-    4.  Guardar el archivo como: `datos_csv/Average_retail_price_of_electricity_monthly.csv`.
+    4.  Guardar el archivo como: `datos/raw_manual/Average_retail_price_of_electricity_monthly.csv`.
     5.  *Formato esperado:* CSV delimitado por punto y coma (`;`) o coma, con columnas `Month` (ej: Apr 2024) y `Price` (Cents/kWh).
-    6.  Ejecutar `python main.py` (el script `limpiar_eia.py` se encargará de normalizarlo).
 
-### 3. Datos de Eficiencia Minera (J/TH)
+#### 3. Datos de Eficiencia Minera (Manual)
 La eficiencia mide cuánta energía (Julios) se necesita para calcular un Terahash. Como no existe un registro centralizado, construimos una curva basada en los lanzamientos de hardware más populares (ej. Antminer S9, S19, S21).
 
 * **Fuente:** [ASIC Miner Value](https://www.asicminervalue.com/) o Notas de prensa de fabricantes (Bitmain, MicroBT).
-* **Archivo:** `datos_csv/efficiency_manual.csv`.
+* **Archivo:** `datos/raw_manual/efficiency_manual.csv`.
 * **Formato:** Debes mantener actualizado este archivo CSV con dos columnas:
     ```csv
     date,efficiency_j_th
