@@ -118,8 +118,9 @@ price_pct_change	Variación porcentual diaria del precio	Hecho Derivado	Calculad
 nvt_ratio	Ratio Valor Red / Transacciones (Métrica de valoración)	Hecho Derivado	Calculado
 hashprice_usd	Ingresos estimados por unidad de Hashrate	Hecho Derivado	Calculado
 
-## 🛠️ Detalle de Fuentes de Datos
-1. Blockchain.com (Automático)
+## 🛠️ Obtención de datos
+
+### 1. Blockchain.com (Automático)
 
 Ampliación significativa para capturar el estado de la red en tres dimensiones:
 
@@ -129,21 +130,30 @@ Ampliación significativa para capturar el estado de la red en tres dimensiones:
 
     Red: Transacciones/seg, Tamaño Mempool, Fees, Direcciones Únicas, Tamaño Bloque, Total BTC en circulación.
 
-2. U.S. EIA (Manual)
+### 2. Datos de Electricidad (U.S. EIA)
+Utilizamos el precio medio de la electricidad industrial en EE.UU. como proxy del coste energético global de los mineros.
 
-    Archivo: Average_retail_price_of_electricity_monthly.csv
+* **Fuente:** U.S. Energy Information Administration (EIA).
+* **URL:** [Electric Power Monthly - Average Retail Price of Electricity](https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_a)
+* **Pasos:**
+    1.  Ir a la tabla "Average Retail Price of Electricity to Ultimate Customers".
+    2.  Buscar la sección **"Industrial"**.
+    3.  Descargar el histórico completo (seleccionar opción "Download" o copiar la tabla).
+    4.  Guardar el archivo como: `datos_csv/Average_retail_price_of_electricity_monthly.csv`.
+    5.  *Formato esperado:* CSV delimitado por punto y coma (`;`) o coma, con columnas `Month` (ej: Apr 2024) y `Price` (Cents/kWh).
+    6.  Ejecutar `python main.py` (el script `limpiar_eia.py` se encargará de normalizarlo).
 
-    Dato: Coste medio de la electricidad industrial en EE.UU. Se utiliza como proxy del coste energético global ("OPEX") de los mineros.
+### 3. Datos de Eficiencia Minera (J/TH)
+La eficiencia mide cuánta energía (Julios) se necesita para calcular un Terahash. Como no existe un registro centralizado, construimos una curva basada en los lanzamientos de hardware más populares (ej. Antminer S9, S19, S21).
 
-3. Eficiencia Hardware (Manual)
-
-    Archivo: efficiency_manual.csv
-
-    Metodología: Interpolación lineal entre hitos de lanzamiento de hardware ASICS principales (Bitmain Antminer S9, S19, XP, etc.).
-
-```text
-Ejemplo de datos de eficiencia interpolados:
-2016-06-01 -> 98.0 J/TH (Era Antminer S9)
-2020-05-01 -> 34.5 J/TH (Era Antminer S19)
-2024-01-01 -> 15.0 J/TH (Hardware de última generación)
-```
+* **Fuente:** [ASIC Miner Value](https://www.asicminervalue.com/) o Notas de prensa de fabricantes (Bitmain, MicroBT).
+* **Archivo:** `datos_csv/efficiency_manual.csv`.
+* **Formato:** Debes mantener actualizado este archivo CSV con dos columnas:
+    ```csv
+    date,efficiency_j_th
+    2015-01-01,250.0
+    2016-06-01,100.0
+    2020-05-01,30.0
+    2024-01-01,17.5
+    ```
+* **Lógica:** El sistema interpolará linealmente los valores entre estas fechas para estimar la eficiencia media de la red día a día. Si sale un nuevo minero revolucionario, añade una nueva fila con la fecha de lanzamiento y su eficiencia.

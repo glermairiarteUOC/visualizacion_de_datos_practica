@@ -2,15 +2,15 @@ import pandas as pd
 import os
 
 # CONFIGURACIÓN
-INPUT_FILE = os.path.join("datos_csv", "Average_retail_price_of_electricity_monthly.csv")
-OUTPUT_FILE = os.path.join("datos_csv", "eia_limpio.csv")
+INPUT_FILE = "datos/raw_manual/Average_retail_price_of_electricity_monthly.csv"
+OUTPUT_FILE = "datos/processed/eia_limpio.csv"
 
 
-def limpiar_eia():
-    print("🧹 Limpiando archivo EIA...")
+def main():
+    print("Limpiando archivo EIA...")
 
     if not os.path.exists(INPUT_FILE):
-        print(f"❌ No encuentro el archivo: {INPUT_FILE}")
+        print(f"No encuentro el archivo: {INPUT_FILE}")
         return
 
     # 1. Leer el archivo con la configuración EXACTA
@@ -24,7 +24,7 @@ def limpiar_eia():
         print(df.head(2))
 
     except Exception as e:
-        print(f"❌ Error crítico leyendo CSV: {e}")
+        print(f"Error crítico leyendo CSV: {e}")
         return
 
     # 2. Limpieza de filas vacías
@@ -60,9 +60,9 @@ def limpiar_eia():
     df_final.columns = ['date', 'elec_cost_kwh']
 
     df_final.to_csv(OUTPUT_FILE, index=False)
-    print(f"✅ Archivo limpio generado: {OUTPUT_FILE}")
+    print(f"Archivo limpio generado: {OUTPUT_FILE}")
     print(df_final.head())
 
 
 if __name__ == "__main__":
-    limpiar_eia()
+    main()

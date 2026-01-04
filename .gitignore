@@ -11,17 +11,18 @@ Thumbs.db
 
 # --- DATOS ---
 # Ignorar el contenido de la carpeta de datos...
-datos_csv/*
+datos/*
 
 # ...EXCEPTO nuestro archivo de configuración manual
-!datos_csv/efficiency_manual.csv
+!datos/efficiency_manual.csv
 
 # Ignorar los archivos de Excel/CSV descargados (por si acaso)
 *.xls
 *.xlsx
-datos_csv/precio_btc.csv
-datos_csv/hashrate_btc.csv
-datos_csv/dificultad_btc.csv
-datos_csv/transacciones_btc.csv
-datos_csv/ingresos_mineros_btc.csv
-datos_csv/precio_electricidad_eia.xls
+datos/precio_btc.csv
+datos/hashrate_btc.csv
+datos/dificultad_btc.csv
+datos/transacciones_btc.csv
+datos/ingresos_mineros_btc.csv
+datos/precio_electricidad_eia.xls
+/datos/

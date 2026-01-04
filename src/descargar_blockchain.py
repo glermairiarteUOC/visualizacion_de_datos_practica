@@ -4,9 +4,8 @@ import os
 # --- 1. CONFIGURACIÓN ---
 base_url = "https://api.blockchain.info/charts/"
 parametros = "?timespan=all&format=csv&sampled=false"
-output_folder = 'datos_csv'
+output_folder = 'datos/raw_api'
 
-# AMPLIACIÓN DE VARIABLES:
 # Diccionario mapeando: nombre_archivo -> endpoint_api
 charts_a_descargar = {
     # --- Mercado y Valor ---
@@ -32,27 +31,31 @@ charts_a_descargar = {
     'cost_per_tx': 'cost-per-transaction'  # Coste por transacción minada
 }
 
-# --- 2. CREAR CARPETAS ---
-if not os.path.exists(output_folder):
-    os.makedirs(output_folder)
-    print(f"Carpeta '{output_folder}' creada/verificada.")
+def main():
+    # --- 2. CREAR CARPETAS ---
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+        print(f"Carpeta '{output_folder}' creada/verificada.")
 
-print(f"Iniciando descarga de {len(charts_a_descargar)} datasets de Blockchain.com...")
+    print(f"Iniciando descarga de {len(charts_a_descargar)} datasets de Blockchain.com...")
 
-# --- 3. BUCLE DE DESCARGA ---
-for nombre_archivo, chart_name in charts_a_descargar.items():
-    url_completa = f"{base_url}{chart_name}{parametros}"
-    print(f"Descargando: {nombre_archivo} ({chart_name})...")
+    # --- 3. BUCLE DE DESCARGA ---
+    for nombre_archivo, chart_name in charts_a_descargar.items():
+        url_completa = f"{base_url}{chart_name}{parametros}"
+        print(f"Descargando: {nombre_archivo} ({chart_name})...")
 
-    try:
-        response = requests.get(url_completa)
-        if response.status_code == 200:
-            file_path = os.path.join(output_folder, f"{nombre_archivo}.csv")
-            with open(file_path, 'w', encoding='utf-8') as f:
-                f.write(response.text)
-        else:
-            print(f"  ERROR {response.status_code} en {chart_name}")
-    except Exception as e:
-        print(f"  ERROR EXCEPCIÓN en {chart_name}: {e}")
+        try:
+            response = requests.get(url_completa)
+            if response.status_code == 200:
+                file_path = os.path.join(output_folder, f"{nombre_archivo}.csv")
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write(response.text)
+            else:
+                print(f"  ERROR {response.status_code} en {chart_name}")
+        except Exception as e:
+            print(f"  ERROR EXCEPCIÓN en {chart_name}: {e}")
 
-print("\n--- Descarga masiva completada. ---")
+    print("\n--- Descarga masiva completada. ---")
+
+if __name__ == "__main__":
+    main()
