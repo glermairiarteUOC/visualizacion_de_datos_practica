@@ -34,25 +34,39 @@ def main():
     fig_market = make_subplots(
         rows=2, cols=2,
         shared_xaxes=True, vertical_spacing=0.1, horizontal_spacing=0.08,
-        subplot_titles=("Precio BTC ($)", "Volumen Exchange", "Direcciones Únicas", "Transacciones/Día")
+        subplot_titles=("Precio de mercado", "Volumen de exchange", "Direcciones usadas diarias",
+                        "Transacciones diarias")
     )
     # 1. Precio
-    fig_market.add_trace(go.Scatter(x=df.index, y=df['precio_btc'], name="Precio BTC", line=dict(color='#F7931A')),
-                         row=1, col=1)
+    fig_market.add_trace(
+        go.Scatter(x=df.index, y=df['precio_btc'], name="Precio de mercado (USD)", line=dict(color='#F7931A')),
+        row=1, col=1)
     # 2. Volumen
     fig_market.add_trace(
-        go.Scatter(x=df.index, y=df['trade_volume_exchange'], name="Volumen", line=dict(color='#6c757d')), row=1, col=2)
+        go.Scatter(x=df.index, y=df['trade_volume_exchange'], name="Volumen de exchange (USD)",
+                   line=dict(color='#6c757d')), row=1, col=2)
     # 3. Direcciones
     fig_market.add_trace(
-        go.Scatter(x=df.index, y=df['n_unique_addresses'], name="Direcciones", line=dict(color='#007bff')), row=2,
+        go.Scatter(x=df.index, y=df['n_unique_addresses'], name="Direcciones usadas diarias",
+                   line=dict(color='#007bff')), row=2,
         col=1)
     # 4. Transacciones
     fig_market.add_trace(
-        go.Scatter(x=df.index, y=df['transacciones_dia'], name="Transacciones", line=dict(color='#28a745'),
+        go.Scatter(x=df.index, y=df['transacciones_dia'], name="Transacciones diarias", line=dict(color='#28a745'),
                    opacity=0.5), row=2, col=2)
 
+    # Ejes Y (Verticales): Personalizados según la métrica
+    fig_market.update_yaxes(title_text="USD", row=1, col=1)
+    fig_market.update_yaxes(title_text="USD", row=1, col=2)
+    fig_market.update_yaxes(title_text="Nº Direcciones", row=2, col=1)
+    fig_market.update_yaxes(title_text="Nº Transacciones", row=2, col=2)
+
+    # Ejes X (Horizontales): Como es compartido (shared_xaxes=True), basta con ponerlo en la fila inferior
+    fig_market.update_xaxes(title_text="Fecha", row=2, col=1)
+    fig_market.update_xaxes(title_text="Fecha", row=2, col=2)
+
     # Height: 600px | Margin top (t): 30px
-    fig_market.update_layout(height=600, template="plotly_white", margin=dict(l=20, r=20, t=30, b=20))
+    fig_market.update_layout(height=600, template="plotly_white", margin=dict(l=20, r=20, t=30, b=20), showlegend=False)
 
     # ---------------------------------------------------------
     # PESTAÑA 3: INFRAESTRUCTURA (4 Variables)
@@ -60,7 +74,7 @@ def main():
     fig_infra = make_subplots(
         rows=2, cols=2,
         shared_xaxes=True, vertical_spacing=0.1, horizontal_spacing=0.08,
-        subplot_titles=("Hashrate (TH/s)", "Dificultad Minera", "Mempool Size (Bytes)", "Tamaño Promedio Bloque")
+        subplot_titles=("Hashrate", "Dificultad de bloque", "Tamaño de la mempool", "Tamaño promedio de bloque")
     )
     # 1. Hashrate
     fig_infra.add_trace(go.Scatter(x=df.index, y=df['hashrate'], name="Hashrate", line=dict(color='#4D4D4D')), row=1,
@@ -68,49 +82,81 @@ def main():
     fig_infra.update_yaxes(type="log", row=1, col=1)
     # 2. Dificultad
     fig_infra.add_trace(
-        go.Scatter(x=df.index, y=df['dificultad'], name="Dificultad", line=dict(color='#dc3545', dash='dot')), row=1,
+        go.Scatter(x=df.index, y=df['dificultad'], name="Dificultad de bloque", line=dict(color='#dc3545', dash='dot')),
+        row=1,
         col=2)
     # 3. Mempool
-    fig_infra.add_trace(go.Scatter(x=df.index, y=df['mempool_size'], name="Mempool", line=dict(color='#6f42c1')), row=2,
-                        col=1)
+    fig_infra.add_trace(
+        go.Scatter(x=df.index, y=df['mempool_size'], name="Tamaño de la mempool", line=dict(color='#6f42c1')), row=2,
+        col=1)
     # 4. Tamaño Bloque
     fig_infra.add_trace(
-        go.Scatter(x=df.index, y=df['avg_block_size'], name="Tamaño Bloque", line=dict(color='#17a2b8')), row=2, col=2)
+        go.Scatter(x=df.index, y=df['avg_block_size'], name="Tamaño promedio de bloque", line=dict(color='#17a2b8')),
+        row=2, col=2)
 
-    fig_infra.update_layout(height=600, template="plotly_white", margin=dict(l=20, r=20, t=30, b=20))
+    # Ejes Y (Verticales): Personalizados según la métrica
+    fig_infra.update_yaxes(title_text="TH/s", row=1, col=1)
+    fig_infra.update_yaxes(title_text="Dificultad", row=1, col=2)
+    fig_infra.update_yaxes(title_text="Bytes", row=2, col=1)
+    fig_infra.update_yaxes(title_text="MB", row=2, col=2)
+
+    # Ejes X (Horizontales): Como es compartido (shared_xaxes=True), basta con ponerlo en la fila inferior
+    fig_infra.update_xaxes(title_text="Fecha", row=2, col=1)
+    fig_infra.update_xaxes(title_text="Fecha", row=2, col=2)
+
+    fig_infra.update_layout(height=600, template="plotly_white", margin=dict(l=20, r=20, t=30, b=20), showlegend=False,
+                            autosize=True, width=None)
 
     # ---------------------------------------------------------
     # PESTAÑA 4: ECONOMÍA DE LA SEGURIDAD (4 Variables)
     # ---------------------------------------------------------
     fig_security = make_subplots(
         rows=2, cols=2, shared_xaxes=True, vertical_spacing=0.1, horizontal_spacing=0.08,
-        subplot_titles=("Coste Ataque 51% ($/h)", "Ingresos Mineros (USD)", "Fees Totales (BTC)",
-                        "Coste por Transacción (USD)")
+        subplot_titles=("Coste de un ataque del 51%", "Ingresos de los mineros", "Total fees recaudados",
+                        "Coste por transacción")
     )
     # 1. Coste Ataque
     fig_security.add_trace(
-        go.Scatter(x=df.index, y=df['attack_hourly_cost_usd'], name="Coste Ataque", line=dict(color='red')), row=1,
+        go.Scatter(x=df.index, y=df['attack_hourly_cost_usd'], name="Coste de un ataque del 51%",
+                   line=dict(color='red')), row=1,
         col=1)
     fig_security.update_yaxes(type="log", row=1, col=1)
     # 2. Ingresos Mineros
     fig_security.add_trace(
-        go.Scatter(x=df.index, y=df['miners_revenue_usd'], name="Ingresos", fill='tozeroy', line=dict(color='#28a745')),
+        go.Scatter(x=df.index, y=df['miners_revenue_usd'], name="Ingresos de los mineros", fill='tozeroy',
+                   line=dict(color='#28a745')),
         row=1, col=2)
     # 3. Fees Totales
     fig_security.add_trace(
-        go.Scatter(x=df.index, y=df['fees_total_btc'], name="Fees Totales", line=dict(color='orange', dash='dash')),
+        go.Scatter(x=df.index, y=df['fees_total_btc'], name="Total fees recaudados",
+                   line=dict(color='orange', dash='dash')),
         row=2, col=1)
     # 4. Coste por Tx
-    fig_security.add_trace(go.Scatter(x=df.index, y=df['cost_per_tx'], name="Coste/Tx", line=dict(color='#20c997')),
-                           row=2, col=2)
+    fig_security.add_trace(
+        go.Scatter(x=df.index, y=df['cost_per_tx'], name="Coste por transacción", line=dict(color='#20c997')),
+        row=2, col=2)
+
+    # Ejes Y (Verticales): Personalizados según la métrica
+    fig_security.update_yaxes(title_text="USD/h", row=1, col=1)
+    fig_security.update_yaxes(title_text="USD", row=1, col=2)
+    fig_security.update_yaxes(title_text="Bitcoin", row=2, col=1)
+    fig_security.update_yaxes(title_text="USD/transaccion", row=2, col=2)
+
+    # Ejes X (Horizontales): Como es compartido (shared_xaxes=True), basta con ponerlo en la fila inferior
+    fig_security.update_xaxes(title_text="Fecha", row=2, col=1)
+    fig_security.update_xaxes(title_text="Fecha", row=2, col=2)
 
     # Height: 600px | Margin top (t): 30px
-    fig_security.update_layout(height=600, template="plotly_white", margin=dict(l=20, r=20, t=30, b=20))
+    fig_security.update_layout(height=600, template="plotly_white", margin=dict(l=20, r=20, t=30, b=20),
+                               showlegend=False)
 
     # --- HTML STRING GENERATION ---
-    plot_market_html = fig_market.to_html(full_html=False, include_plotlyjs='cdn')
-    plot_infra_html = fig_infra.to_html(full_html=False, include_plotlyjs=False)
-    plot_security_html = fig_security.to_html(full_html=False, include_plotlyjs=False)
+    plot_market_html = fig_market.to_html(full_html=False, include_plotlyjs='cdn', default_width='100%',
+                                          config={'responsive': True})
+    plot_infra_html = fig_infra.to_html(full_html=False, include_plotlyjs='cdn', default_width='100%',
+                                        config={'responsive': True})
+    plot_security_html = fig_security.to_html(full_html=False, include_plotlyjs='cdn', default_width='100%',
+                                              config={'responsive': True})
 
     # --- TEMPLATE HTML COMPLETO ---
     html_template = f"""
@@ -133,6 +179,17 @@ def main():
             .info-text h5 {{ color: #F7931A; font-weight: bold; margin-top: 15px; font-size: 1.1rem; }}
             .info-text p {{ font-size: 0.9rem; color: #666; text-align: justify; line-height: 1.5; }}
             .info-text h3 {{ font-size: 1.5rem; color: #333; }}
+
+            /* ESTILOS PARA LA CONCLUSIÓN */
+            .conclusion-box {{
+                background-color: #e3f2fd; /* Azul muy suave */
+                border-left: 5px solid #2196F3; /* Borde azul fuerte */
+            }}
+            .conclusion-title {{
+                color: #0d47a1;
+                font-weight: bold;
+                font-size: 1.1rem;
+            }}
         </style>
     </head>
     <body>
@@ -218,6 +275,28 @@ def main():
                             </div>
                         </div>
 
+                        <div class="card p-3 mt-3 mb-3 conclusion-box">
+                            <h5 class="conclusion-title mb-2">Conclusión: La realidad del coste de ataque</h5>
+
+                            <p class="small text-dark" style="text-align: justify;">
+                                Aunque el coste del ataque por hora puede parecer bajo, aproximadamente 1 millon de dolares por hora, unicamente se estan mirando el OpEx (Gastos operativos) o la factura eléctrica.
+                            </p>
+                            <p class="small text-dark" style="text-align: justify;">
+                                Sin embargo, atacar Bitcoin es prácticamente imposible hoy en día debido al CapEx (Inversión de capital), que es la verdadera barrera:
+                            </p>
+
+                            <ul class="small ps-3 mb-1 text-dark">
+                                <li><strong>Hashrate actual aproximado:</strong> ~1000 Exahashes/segundo.</li>
+                                <li><strong>Para el 51% necesitas:</strong> ~510 Exahashes nuevos.</li>
+                                <li><strong>Hardware necesario:</strong> Más de 2.5 millones de máquinas de última generación (como el Antminer S21).</li>
+                                <li><strong>Coste del Hardware:</strong> > 7.500 Millones de dólares de inversión inicial.</li>
+                            </ul>
+
+                            <p class="small mt-2 mb-0 text-dark">
+                                <strong>Resumen:</strong> No basta con tener dinero para pagar la luz; necesitas comprar una infraestructura de hardware de miles de millones de dólares antes de poder enchufarla, algo que requiere de una gran inversion inicial y que parece inverosimil desde el punto de vista logístico.
+                            </p>
+                        </div>
+
                         <div class="alert alert-secondary mt-3 mb-0 d-flex align-items-center">
                             <div class="flex-grow-1">
                                 <strong>Fuentes de datos y procesamiento de los mismos:</strong><br>
@@ -239,14 +318,14 @@ def main():
                         <div class="col-lg-3">
                             <div class="card p-3 h-100 info-text" style="background-color: #ffffff;">
                                 <h3 class="mb-4 border-bottom pb-2">Precio y uso de la red</h3>
-                                <h5>1. Precio de mercado (USD)</h5>
-                                <p>Valoración de mercado. Es el incentivo principal que atrae a los mineros y da seguridad a la red.</p>
+                                <h5>1. Precio de mercado</h5>
+                                <p>Precio de mercado del Bitcoin en dolares. Es el incentivo principal que atrae a los mineros y da seguridad a la red.</p>
                                 <h5>2. Volumen de exchange</h5>
-                                <p>Muestra la liquidez. Picos altos coinciden con volatilidad; bajos indican periodos de acumulación.</p>
-                                <h5>3. Direcciones únicas (Usuarios)</h5>
-                                <p>Proxy de adopción de usuarios. Indica cuántas billeteras activas interactúan con la red diariamente.</p>
-                                <h5>4.  Transacciones diarias (Uso)</h5>
-                                <p>Medida de us de la red. Indica si la red se usa para transferir valor en un determinado momento.</p>
+                                <p>Volumne intercambiado en los principales exchanges en dolares. Muestra la liquidez. Valor de todos los bitcoins comprados y vendidos en los principales exchanges durante ese día.</p>
+                                <h5>3. Direcciones únicas</h5>
+                                <p>Proxy de adopción de usuarios. Cantidad total de direcciones de Bitcoin diferentes que participaron en una transacción durante ese día específico.</p>
+                                <h5>4. Transacciones diarias</h5>
+                                <p>Medida de uso de la red. Número total de transacciones confirmadas e incluidas en la blockchain de Bitcoin en un dia.</p>
                             </div>
                         </div>
                     </div>
@@ -260,14 +339,14 @@ def main():
                         <div class="col-lg-3">
                             <div class="card p-3 h-100 info-text" style="background-color: #ffffff;">
                                 <h3 class="mb-4 border-bottom pb-2">Infraestructura de Bitcoin</h3>
-                                <h5>1. Hashrate (Potencia de calculo de la red)</h5>
-                                <p>La métrica reina de seguridad física. Representa la potencia de cálculo total protegiendo la blockchain.</p>
-                                <h5>2. Dificultad de minado</h5>
-                                <p>Ajuste automático cada 2016 bloques. Si sube, indica que hay más mineros compitiendo.</p>
-                                <h5>3. Tamaño de la mempool (Congestión)</h5>
-                                <p>La "sala de espera". Si se llena, indica congestión y subida de comisiones inminente.</p>
-                                <h5>4. Tamaño promedio de los bloque</h5>
-                                <p>Promedio de espacio usado por bloque. Un bloque lleno (~1-2MB) indica máxima demanda de espacio.</p>
+                                <h5>1. Hashrate</h5>
+                                <p>La métrica reina de seguridad física. Representa la potencia de cálculo total dedicada a crear un nuevo bloque de Bitcoin.</p>
+                                <h5>2. Dificultad de bloque</h5>
+                                <p>Valor que representa el numero de calculos necesarios para obtener un nuevo bloque de Bitcoin. Se ajusta de forma automatica cada 2016 bloques para crear un bloque cada 10 minutos.</p>
+                                <h5>3. Tamaño de la mempool</h5>
+                                <p>La "sala de espera". Si se llena, indica congestión y subida de comisiones de las transacciones ya que las transacciones se priorizan en funcion de la comision que pagan.</p>
+                                <h5>4. Tamaño promedio de bloque</h5>
+                                <p>Promedio de espacio usado por bloque. Un bloque lleno (~1-2MB) indica máxima demanda de espacio, esta limitado por el algoritmo de Bitcoin.</p>
                             </div>
                         </div>
                     </div>
@@ -281,14 +360,14 @@ def main():
                         <div class="col-lg-3">
                             <div class="card p-3 h-100 info-text" style="background-color: #ffffff;">
                                 <h3 class="mb-4 border-bottom pb-2">Seguridad y coste de un ataque</h3>
-                                <h5>1. Coste de un ataque de 51% (USD/h)</h5>
-                                <p>Cuánto costaría en electricidad atacar la red por 1 hora. Si esto sube, BTC es más seguro.</p>
+                                <h5>1. Coste de un ataque de 51%</h5>
+                                <p>Cuánto costaría en electricidad atacar la red por 1 hora, suponiendo la maxima eficiencia de los mineros y no incluyendo los costes de obtencion de los mineros, unicamente el coste energetico. Si esto sube, BTC es más seguro.</p>
                                 <h5>2. Ingresos de los mineros</h5>
-                                <p>Suma del subsidio de bloque + comisiones. Es el presupuesto de seguridad de la red, es el dinero que reciben los mineros de la misma.</p>
-                                <h5>3. Total fees recaudados (BTC)</h5>
-                                <p>Cantidad total de Bitcoin pagado en comisiones. Fundamental para la sostenibilidad a largo plazo.</p>
-                                <h5>4. Coste por transacción (Eficiencia)</h5>
-                                <p>Promedio en USD que cuesta una transacción. Mide la eficiencia económica para el usuario final.</p>
+                                <p>Dinero total que ganan los mineros en un día. Es la suma del subsidio de bloque + comisiones. Es el presupuesto de seguridad de la red.</p>
+                                <h5>3. Total fees recaudados</h5>
+                                <p>Cantidad total de Bitcoin pagado en comisiones por los usuarios. Fundamental para la sostenibilidad a largo plazo.</p>
+                                <h5>4. Coste por transacción</h5>
+                                <p>Ingreso de los mineros entre numero de transacciones diarias. Promedio diario en dolares por transaccion. Tiene en cuenta tambien la creacion de nuevo Bitcoin, por lo que no es el precio promedio que paga el usuario por transaccion.</p>
                             </div>
                         </div>
                     </div>
