@@ -1,0 +1,424 @@
+Average retail price of electricity monthly;
+https://www.eia.gov/electricity/data/browser/#/topic/7?agg=0;1&geo=g&endsec=vg&linechart=~~~ELEC.PRICE.US-IND.M&columnchart=ELEC.PRICE.US-ALL.M~ELEC.PRICE.US-RES.M~ELEC.PRICE.US-COM.M~ELEC.PRICE.US-IND.M&map=ELEC.PRICE.US-ALL.M&freq=M&start=200101&end=202508&ctype=linechart&ltype=pin&rtype=s&maptype=0&rse=0&pin=
+17:23:10 GMT+0100 (hora estándar de Europa central);
+Data source: U.S. Energy Information Administration;
+Month;industrial cents per kilowatthour
+jul-25;9.06
+jul-25;
+jun-25;9.31
+may-25;8.87
+may-25;
+Apr 2025;8.26
+mar-25;8.16
+mar-25;
+feb-25;8.23
+Jan 2025;8.21
+Dec 2024;8.32
+Dec 2024;
+nov-24;7.96
+oct-24;7.85
+oct-24;
+sep-24;8.11
+Aug 2024;8.45
+jul-24;8.67
+jul-24;
+jun-24;8.73
+may-24;8.41
+may-24;
+Apr 2024;7.87
+mar-24;7.79
+mar-24;
+feb-24;7.68
+Jan 2024;7.76
+Dec 2023;8.07
+Dec 2023;
+nov-23;7.61
+oct-23;7.79
+oct-23;
+sep-23;8.01
+Aug 2023;8.43
+jul-23;8.9
+jul-23;
+jun-23;8.36
+may-23;8.11
+may-23;
+Apr 2023;7.64
+mar-23;7.51
+mar-23;
+feb-23;7.8
+Jan 2023;8.01
+Dec 2022;8.18
+Dec 2022;
+nov-22;8.5
+oct-22;8.14
+oct-22;
+sep-22;8.45
+Aug 2022;9.06
+jul-22;9.38
+jul-22;
+jun-22;9.31
+may-22;8.85
+may-22;
+Apr 2022;8.25
+mar-22;7.7
+mar-22;
+feb-22;7.37
+Jan 2022;7.28
+Dec 2021;7.19
+Dec 2021;
+nov-21;7.06
+oct-21;7.37
+oct-21;
+sep-21;7.44
+Aug 2021;7.61
+jul-21;7.54
+jul-21;
+jun-21;7.42
+may-21;7.22
+may-21;
+Apr 2021;6.65
+mar-21;6.7
+mar-21;
+feb-21;6.98
+Jan 2021;7.75
+Dec 2020;6.32
+Dec 2020;
+nov-20;6.41
+oct-20;6.49
+oct-20;
+sep-20;6.72
+Aug 2020;7
+jul-20;7.07
+jul-20;
+jun-20;7.16
+may-20;6.94
+may-20;
+Apr 2020;6.54
+mar-20;6.39
+mar-20;
+feb-20;6.39
+Jan 2020;6.44
+Dec 2019;6.37
+Dec 2019;
+nov-19;6.38
+oct-19;6.72
+oct-19;
+sep-19;6.84
+Aug 2019;7.06
+jul-19;7.4
+jul-19;
+jun-19;7.14
+may-19;6.87
+may-19;
+Apr 2019;6.69
+mar-19;6.51
+mar-19;
+feb-19;6.73
+Jan 2019;6.69
+Dec 2018;6.58
+Dec 2018;
+nov-18;6.67
+oct-18;6.85
+oct-18;
+sep-18;6.87
+Aug 2018;7.05
+jul-18;7.25
+jul-18;
+jun-18;7.32
+may-18;7.17
+may-18;
+Apr 2018;6.79
+mar-18;6.57
+mar-18;
+feb-18;6.63
+Jan 2018;6.78
+Dec 2017;6.94
+Dec 2017;
+nov-17;6.54
+oct-17;6.73
+oct-17;
+sep-17;6.91
+Aug 2017;7.17
+jul-17;7.22
+jul-17;
+jun-17;7.31
+may-17;7.19
+may-17;
+Apr 2017;6.78
+mar-17;6.6
+mar-17;
+feb-17;6.71
+Jan 2017;6.63
+Dec 2016;6.59
+Dec 2016;
+nov-16;6.67
+oct-16;6.66
+oct-16;
+sep-16;6.73
+Aug 2016;7.14
+jul-16;7.23
+jul-16;
+jun-16;7.23
+may-16;7.03
+may-16;
+Apr 2016;6.57
+mar-16;6.44
+mar-16;
+feb-16;6.46
+Jan 2016;6.42
+Dec 2015;6.44
+Dec 2015;
+nov-15;6.45
+oct-15;6.61
+oct-15;
+sep-15;6.88
+Aug 2015;7.21
+jul-15;7.35
+jul-15;
+jun-15;7.45
+may-15;7.11
+may-15;
+Apr 2015;6.74
+mar-15;6.61
+mar-15;
+feb-15;6.83
+Jan 2015;6.88
+Dec 2014;6.67
+Dec 2014;
+nov-14;6.7
+oct-14;6.75
+oct-14;
+sep-14;7.07
+Aug 2014;7.37
+jul-14;7.51
+jul-14;
+jun-14;7.62
+may-14;7.39
+may-14;
+Apr 2014;6.83
+mar-14;6.77
+mar-14;
+feb-14;6.99
+Jan 2014;7.12
+Dec 2013;6.98
+Dec 2013;
+nov-13;6.66
+oct-13;6.65
+oct-13;
+sep-13;6.87
+Aug 2013;7.22
+jul-13;7.37
+jul-13;
+jun-13;7.45
+may-13;7.25
+may-13;
+Apr 2013;6.75
+mar-13;6.58
+mar-13;
+feb-13;6.64
+Jan 2013;6.66
+Dec 2012;6.5
+Dec 2012;
+nov-12;6.52
+oct-12;6.5
+oct-12;
+sep-12;6.62
+Aug 2012;6.97
+jul-12;7.08
+jul-12;
+jun-12;7.13
+may-12;6.89
+may-12;
+Apr 2012;6.53
+mar-12;6.38
+mar-12;
+feb-12;6.46
+Jan 2012;6.45
+Dec 2011;6.44
+Dec 2011;
+nov-11;6.51
+oct-11;6.53
+oct-11;
+sep-11;6.77
+Aug 2011;7.15
+jul-11;7.39
+jul-11;
+jun-11;7.32
+may-11;7.14
+may-11;
+Apr 2011;6.68
+mar-11;6.53
+mar-11;
+feb-11;6.53
+Jan 2011;6.63
+Dec 2010;6.53
+Dec 2010;
+nov-10;6.6
+oct-10;6.56
+oct-10;
+sep-10;6.8
+Aug 2010;7
+jul-10;7.22
+jul-10;
+jun-10;7.23
+may-10;6.97
+may-10;
+Apr 2010;6.64
+mar-10;6.55
+mar-10;
+feb-10;6.53
+Jan 2010;6.55
+Dec 2009;6.5
+Dec 2009;
+nov-09;6.54
+oct-09;6.4
+oct-09;
+sep-09;6.7
+Aug 2009;6.89
+jul-09;7.1
+jul-09;
+jun-09;7.1
+may-09;7.09
+may-09;
+Apr 2009;6.77
+mar-09;6.75
+mar-09;
+feb-09;6.81
+Jan 2009;6.9
+Dec 2008;6.92
+Dec 2008;
+nov-08;6.79
+oct-08;6.93
+oct-08;
+sep-08;7.19
+Aug 2008;7.31
+jul-08;7.55
+jul-08;
+jun-08;7.72
+may-08;7.35
+may-08;
+Apr 2008;6.75
+mar-08;6.64
+mar-08;
+feb-08;6.46
+Jan 2008;6.34
+Dec 2007;6.33
+Dec 2007;
+nov-07;6.26
+oct-07;6.28
+oct-07;
+sep-07;6.46
+Aug 2007;6.52
+jul-07;6.84
+jul-07;
+jun-07;6.71
+may-07;6.59
+may-07;
+Apr 2007;6.27
+mar-07;6.19
+mar-07;
+feb-07;6.22
+Jan 2007;6.16
+Dec 2006;6.13
+Dec 2006;
+nov-06;6
+oct-06;6.04
+oct-06;
+sep-06;6.16
+Aug 2006;6.37
+jul-06;6.65
+jul-06;
+jun-06;6.61
+may-06;6.41
+may-06;
+Apr 2006;6
+mar-06;5.93
+mar-06;
+feb-06;5.88
+Jan 2006;5.98
+Dec 2005;5.78
+Dec 2005;
+nov-05;5.94
+oct-05;5.83
+oct-05;
+sep-05;6.03
+Aug 2005;6.17
+jul-05;6.2
+jul-05;
+jun-05;6.14
+may-05;5.86
+may-05;
+Apr 2005;5.42
+mar-05;5.31
+mar-05;
+feb-05;5.3
+Jan 2005;5.26
+Dec 2004;5.23
+Dec 2004;
+nov-04;5.14
+oct-04;5.09
+oct-04;
+sep-04;5.25
+Aug 2004;5.41
+jul-04;5.65
+jul-04;
+jun-04;5.63
+may-04;5.46
+may-04;
+Apr 2004;5.18
+mar-04;5.09
+mar-04;
+feb-04;5.04
+Jan 2004;5.04
+Dec 2003;5.01
+Dec 2003;
+nov-03;4.87
+oct-03;4.86
+oct-03;
+sep-03;5.07
+Aug 2003;5.19
+jul-03;5.48
+jul-03;
+jun-03;5.54
+may-03;5.28
+may-03;
+Apr 2003;5.06
+mar-03;4.99
+mar-03;
+feb-03;5.02
+Jan 2003;4.99
+Dec 2002;4.92
+Dec 2002;
+nov-02;4.72
+oct-02;4.71
+oct-02;
+sep-02;4.91
+Aug 2002;4.98
+jul-02;5.15
+jul-02;
+jun-02;5.27
+may-02;5.03
+may-02;
+Apr 2002;4.78
+mar-02;4.73
+mar-02;
+feb-02;4.73
+Jan 2002;4.76
+Dec 2001;4.73
+Dec 2001;
+nov-01;4.78
+oct-01;4.78
+oct-01;
+sep-01;5.07
+Aug 2001;5.31
+jul-01;5.5
+jul-01;
+jun-01;5.57
+may-01;5.23
+may-01;
+Apr 2001;5
+mar-01;4.87
+mar-01;
+feb-01;4.86
+Jan 2001;4.8
+Dec 2000;4.73

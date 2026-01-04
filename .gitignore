@@ -1,28 +1,2 @@
-# Ignorar entorno virtual de Python
 .venv/
-
-# Ignorar archivos de caché de Python
-__pycache__/
-*.pyc
-
-# Ignorar archivos de sistema
-.DS_Store
-Thumbs.db
-
-# --- DATOS ---
-# Ignorar el contenido de la carpeta de datos...
-datos/*
-
-# ...EXCEPTO nuestro archivo de configuración manual
-!datos/efficiency_manual.csv
-
-# Ignorar los archivos de Excel/CSV descargados (por si acaso)
-*.xls
-*.xlsx
-datos/precio_btc.csv
-datos/hashrate_btc.csv
-datos/dificultad_btc.csv
-datos/transacciones_btc.csv
-datos/ingresos_mineros_btc.csv
-datos/precio_electricidad_eia.xls
-/datos/
+.idea/
